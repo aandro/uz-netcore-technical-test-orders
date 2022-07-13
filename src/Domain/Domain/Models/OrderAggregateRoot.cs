@@ -27,6 +27,9 @@ namespace Core.Domain.Models
 
             this.Id = command.Id;
             this.Items = command.Items;
+
+            // TODO: with Event Sourcing we can emit Domain Event here;
+            // then use 3rd party package to handle storing events and propagating changes to ReadModels (for read store part of CQRS)
         }
     }
 }
