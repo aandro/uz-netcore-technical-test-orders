@@ -11,21 +11,23 @@ namespace Core.Handlers.Commands
     public class OrderCommandHandler : IRequestHandler<CreateOrderCommand>
     {
         private IBus BusClient { get; }
+        private IUnitOfWork UnitOfWork { get; }
 
         public OrderCommandHandler(
-            IOrderAggregateRootRepository repo,
-            IBus bus)
+            IBus bus,
+            IUnitOfWork unitOfWork)
         {
-            var  _ = repo.MustNotBeDefault();
             this.BusClient = bus.MustNotBeDefault(nameof(bus));
+            this.UnitOfWork = unitOfWork.MustNotBeDefault(nameof(unitOfWork));
         }
 
-        public Task<Unit> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
         {
             // TODO: atomically instantiate a new OrderAggregateRoot, persist it and send OrderCreatedEvent
-            
 
-            return Unit.Task;
+            await UnitOfWork.Save(request);
+
+            return new Unit();
         }
     }
 }

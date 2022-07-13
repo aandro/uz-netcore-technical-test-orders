@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Core.Messages.Events
 {
-    public class OrderCreatedEvent: INotification
+    public class OrderCreatedEvent: INotification, IDomainEvent
     {
         public Guid Id { get; set; }
 
